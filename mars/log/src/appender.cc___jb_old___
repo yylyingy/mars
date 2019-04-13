@@ -873,9 +873,9 @@ void appender_open(TAppenderMode _mode, const char* _dir, const char* _nameprefi
     get_mark_info(mark_info, sizeof(mark_info));
 
     if (buffer.Ptr()) {
-//        __writetips2file("~~~~~ begin of mmap ~~~~~\n");
+        __writetips2file("~~~~~ begin of mmap ~~~~~\n");
         __log2file(buffer.Ptr(), buffer.Length(), false);
-//        __writetips2file("~~~~~ end of mmap ~~~~~%s\n", mark_info);
+        __writetips2file("~~~~~ end of mmap ~~~~~%s\n", mark_info);
     }
 
     tickcountdiff_t get_mmap_time = tickcount_t().gettickcount() - tick;

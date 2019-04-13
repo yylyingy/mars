@@ -1,16 +1,25 @@
-apply plugin: "com.android.library"
+apply plugin: "com.android.application"
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 27
     buildToolsVersion '23.0.1'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 21
-        ndk {
-            // TODO: changes this for your application if needed
-            moduleName = "mmnet"
-            abiFilter "armeabi"
-            abiFilter "armeabi-v7a"
+//        ndk {
+//            // TODO: changes this for your application if needed
+//            moduleName = "mmnet"
+//            abiFilter "armeabi"
+//            abiFilter "armeabi-v7a"
+//        }
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_TOOLCHAIN=clang", "-DANDROID_PLATFORM=android-14", "-DANDROID_STL=c++_shared", "-DANDROID_ABI=armeabi"
+                cppFlags.addAll("-mfloat-abi=softfp -frtti  -fexceptions  -std=gnu++11  ")
+                cFlags.addAll("-mfloat-abi=softfp  -fexceptions ")
+                abiFilters 'armeabi'
+            }
         }
     }
     sourceSets {
@@ -35,13 +44,20 @@ android {
             proguardFile 'proguard-rules.pro'
         }
     }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
 }
 
 
 dependencies {
+    compile 'com.android.support:appcompat-v7:27.0.0'
     compile 'javax.validation:validation-api:1.1.0.Final'
 }
 
 apply from: "${rootDir}/gradle/build_xlog_libraries.gradle"
 
-apply from: "bintray.gradle"
+//apply from: "bintray.gradle"
