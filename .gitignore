@@ -14,6 +14,10 @@ xcshareddata
 
 /mars/comm/verinfo.h
 /mars/libraries/*/
+/mars/libraries/mars_xlog_sdk/.externalNativeBuild
+/mars/libraries/mars_xlog_sdk/build
+/mars/libraries/mars_xlog_sdk/mars_xlog_sdk.iml
+!/mars/libraries/mars_xlog_sdk/
 /mars/*/libs/
 !/mars/boost/libs/
 /samples/iOS/iOSDemo/Kernel/MarsLib/
