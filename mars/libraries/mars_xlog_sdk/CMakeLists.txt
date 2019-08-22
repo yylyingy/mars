@@ -1,1 +1,41 @@
-cmake_minimum_required (VERSION 3.6)add_subdirectory(../../comm comm)add_subdirectory(../../boost boost)add_subdirectory(../../log xlog)project (mars-xlog)include(../../comm/CMakeUtils.txt)find_library(log-lib log)find_library(z-lib z)link_directories( log comm boost)include_directories(        ../../)# marsxlogset(SELF_LIB_NAME marsxlog)file(GLOB SELF_SRC_FILES ../mars_android_sdk/jni/JNI_OnLoad.cc        ../mars_xlog_sdk/jni/import.cc)add_library(${SELF_LIB_NAME} SHARED ${SELF_SRC_FILES})get_filename_component(EXPORT_XLOG_EXP_FILE ../../log/jni/export.exp ABSOLUTE)if(ANDROID_ABI STREQUAL "arm64-v8a")    target_link_libraries(${SELF_LIB_NAME} "-Wl,--gc-sections"            ${log-lib}            ${z-lib}            xlog            mars-boost            comm)else()    target_link_libraries(${SELF_LIB_NAME} "-Wl,--gc-sections -Wl,--version-script=\"${EXPORT_XLOG_EXP_FILE}\""            ${log-lib}            ${z-lib}            xlog            mars-boost            comm)endif()
+cmake_minimum_required (VERSION 3.6)
+add_subdirectory(../../comm comm)
+add_subdirectory(../../boost boost)
+add_subdirectory(../../log xlog)
+
+project (mars-xlog)
+
+include(../../comm/CMakeUtils.txt)
+
+find_library(log-lib log)
+find_library(z-lib z)
+
+link_directories( log comm boost)
+include_directories(
+        ../../
+)
+# marsxlog
+set(SELF_LIB_NAME marsxlog)
+
+file(GLOB SELF_SRC_FILES ../mars_android_sdk/jni/JNI_OnLoad.cc
+        ../mars_xlog_sdk/jni/import.cc)
+add_library(${SELF_LIB_NAME} SHARED ${SELF_SRC_FILES})
+
+get_filename_component(EXPORT_XLOG_EXP_FILE ../../log/jni/export.exp ABSOLUTE)
+if(ANDROID_ABI STREQUAL "arm64-v8a")
+    target_link_libraries(${SELF_LIB_NAME} "-Wl,--gc-sections"
+            ${log-lib}
+            ${z-lib}
+            xlog
+            mars-boost
+            comm)
+
+else()
+    target_link_libraries(${SELF_LIB_NAME} "-Wl,--gc-sections -Wl,--version-script=\"${EXPORT_XLOG_EXP_FILE}\""
+            ${log-lib}
+            ${z-lib}
+            xlog
+            mars-boost
+            comm)
+endif()
+
